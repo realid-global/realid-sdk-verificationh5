@@ -16,7 +16,7 @@ and the product API, please visit:
 public String MCH_NO = "TEST001";
 // The unique key assigned by REAL ID to each merchant.
 public String SECRET_KEY = "TESTKEY001";
-
+// default BASE_URL : https://api.realid.global/sdk/
 RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 ~~~
 
