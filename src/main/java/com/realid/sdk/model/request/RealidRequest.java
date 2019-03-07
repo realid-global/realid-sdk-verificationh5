@@ -3,68 +3,30 @@ package com.realid.sdk.model.request;
 import com.realid.sdk.RealidConstants;
 
 public class RealidRequest {
-	/**
-	 * 商户号
-	 */
+
 	private String mchNo;
 
-	/**
-	 * 接口版本
-	 */
 	private String version = RealidConstants.SDK_VERSION;
 
-	/**
-	 * 时间戳
-	 */
 	private String timestamp = String.valueOf(System.currentTimeMillis());
 
-	/**
-	 * 签名
-	 */
 	private String sign;
 
-	/**
-	 * 签名算法
-	 */
 	private String signType = RealidConstants.SIGN_HMACSHA256_ALGORITHMS;
 
-	/**
-	 * 数据对象
-	 */
 	private RealidRequestModel<?> data;
 	
-	
-	
 
-	/**
-	 * @param mchNo
-	 */
 	public RealidRequest(String mchNo) {
-		super();
 		this.mchNo = mchNo;
 	}
 	
-	
-
-	/**
-	 * @param mchNo
-	 * @param data
-	 */
 	public RealidRequest(String mchNo, RealidRequestModel<?> data) {
-		super();
 		this.mchNo = mchNo;
 		this.data = data;
 	}
 
-
-
-	/**
-	 * @param mchNo
-	 * @param version
-	 * @param signType
-	 */
 	public RealidRequest(String mchNo, String version, String signType) {
-		super();
 		this.mchNo = mchNo;
 		this.version = version;
 		this.signType = signType;

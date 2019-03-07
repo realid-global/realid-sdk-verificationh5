@@ -1,16 +1,9 @@
 package com.realid.sdk.util;
 
-/**
- * 字符串工具类。
- */
 public abstract class StringUtils {
 
 	private StringUtils() {}
 
-	/**
-	 * @param value 待检查的字符串
-	 * @return true/false
-	 */
 	public static boolean isEmpty(String value) {
 		int strLen;
 		if (value == null || (strLen = value.length()) == 0) {
@@ -24,9 +17,6 @@ public abstract class StringUtils {
 		return true;
 	}
 
-	/**
-	 * 检查对象是否为数字型字符串,包含负数开头的。
-	 */
 	public static boolean isNumeric(Object obj) {
 		if (obj == null) {
 			return false;
@@ -49,7 +39,7 @@ public abstract class StringUtils {
 	}
 
 	/**
-	 * 检查指定的字符串列表是否不为空。
+	 * check the list of strings are not empty
 	 */
 	public static boolean areNotEmpty(String... values) {
 		boolean result = true;
@@ -65,7 +55,7 @@ public abstract class StringUtils {
 	
 
 	/**
-	 * 过滤不可见字符
+	 * filtering invisible characters
 	 */
 	public static String stripInvalidCharacters(String input) {
 		if (input == null || ("".equals(input)))

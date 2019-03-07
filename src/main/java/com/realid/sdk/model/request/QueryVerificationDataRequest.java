@@ -16,8 +16,8 @@ public class QueryVerificationDataRequest extends RealidRequestModel<QueryVerifi
 	}
 
 	@Override
-	void setInterfaceName() {
-		this.setInterfaceName(RealidConstants.REQUEST_QUERY_VERIFICATION_DATA);
+	public String interfaceName() {
+		return RealidConstants.REQUEST_QUERY_VERIFICATION_DATA;
 	}
 	
 

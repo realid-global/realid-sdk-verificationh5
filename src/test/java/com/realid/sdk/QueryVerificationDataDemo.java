@@ -11,9 +11,9 @@ import com.realid.sdk.model.response.RealidResponse;
 public class QueryVerificationDataDemo {
 	
 	// The unique identity assigned by REAL ID to each merchant.
-	public String MCH_NO = "TEST001";
+	public final String MCH_NO = "TEST001";
 	// The unique key assigned by REAL ID to each merchant.
-	public String SECRET_KEY = "TESTKEY001";
+	public final String SECRET_KEY = "TESTKEY001";
 	
 	public static void main(String[] args) {
 		QueryVerificationDataDemo ins = new QueryVerificationDataDemo();

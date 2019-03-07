@@ -55,9 +55,10 @@ public class CreateOrderRequest extends RealidRequestModel<CreateOrderResult> {
 		this.notifyURL = notifyURL;
 	}
 
+
 	@Override
-	public final void setInterfaceName() {
-		this.setInterfaceName(RealidConstants.REQUEST_CREATE_ORDER);
+	public String interfaceName() {
+		return RealidConstants.REQUEST_CREATE_ORDER;
 	}
 	
 

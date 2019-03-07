@@ -32,9 +32,6 @@ import javax.net.ssl.X509TrustManager;
 
 import com.realid.sdk.model.FileItem;
 
-/**
- * 网络工具类
- */
 public abstract class WebUtils {
 
     private static final String     DEFAULT_CHARSET = "UTF-8";
@@ -78,7 +75,7 @@ public abstract class WebUtils {
 
         verifier = new HostnameVerifier() {
             public boolean verify(String hostname, SSLSession session) {
-                return false;//默认认证不通过，进行证书校验。
+                return false;//not verify centification
             }
         };
 
@@ -93,16 +90,16 @@ public abstract class WebUtils {
     }
 
     /**
-     * 执行HTTP POST请求，可使用代理proxy。
+     * http post request
      *
-     * @param url 请求地址
-     * @param params 请求参数
-     * @param charset 字符集，如UTF-8, GBK, GB2312
-     * @param connectTimeout 连接超时时间
-     * @param readTimeout 请求超时时间
-     * @param proxyHost 代理host，传null表示不使用代理
-     * @param proxyPort 代理端口，传0表示不使用代理
-     * @return 响应字符串
+     * @param url 
+     * @param json json body
+     * @param charset UTF-8, GBK, GB2312
+     * @param connectTimeout 
+     * @param readTimeout 
+     * @param proxyHost null means no proxy
+     * @param proxyPort 0 means no proxy
+     * @return response string
      * @throws IOException
      */
     public static String doPost(String url, String json, String charset,
@@ -116,19 +113,7 @@ public abstract class WebUtils {
         return doPost(url, ctype, content, connectTimeout, readTimeout, proxyHost, proxyPort);
     }
 
-    /**
-     * 执行HTTP POST请求。
-     *
-     * @param url 请求地址
-     * @param ctype 请求类型
-     * @param content 请求字节数组
-     * @param connectTimeout 连接超时时间
-     * @param readTimeout 请求超时时间
-     * @param proxyHost 代理host，传null表示不使用代理
-     * @param proxyPort 代理端口，传0表示不使用代理
-     * @return 响应字符串
-     * @throws IOException
-     */
+
     public static String doPost(String url, String ctype, byte[] content, int connectTimeout,
                                 int readTimeout, String proxyHost, int proxyPort) throws IOException {
         HttpURLConnection conn = null;
@@ -164,17 +149,17 @@ public abstract class WebUtils {
     }
 
     /**
-     * 执行带文件上传的HTTP POST请求。
+     * http post with file upload 
      *
-     * @param url 请求地址
-     * @param params 文本请求参数
-     * @param fileParams 文件请求参数
-     * @param charset 字符集，如UTF-8, GBK, GB2312
-     * @param connectTimeout 连接超时时间
-     * @param readTimeout 请求超时时间
-     * @param proxyHost 代理host，传null表示不使用代理
-     * @param proxyPort 代理端口，传0表示不使用代理
-     * @return 响应字符串
+     * @param url 
+     * @param params 
+     * @param fileParams 
+     * @param charset UTF-8, GBK, GB2312
+     * @param connectTimeout 
+     * @param readTimeout 
+     * @param proxyHost null means no proxy
+     * @param proxyPort 0 means no proxy
+     * @return response string
      * @throws IOException
      */
     public static String doPost(String url, Map<String, String> params,
@@ -270,25 +255,14 @@ public abstract class WebUtils {
     }
 
     /**
-     * 执行HTTP GET请求。
-     *
-     * @param url 请求地址
-     * @param params 请求参数
-     * @return 响应字符串
-     * @throws IOException
+     * HTTP GET
      */
     public static String doGet(String url, Map<String, String> params) throws IOException {
         return doGet(url, params, DEFAULT_CHARSET);
     }
 
     /**
-     * 执行HTTP GET请求。
-     *
-     * @param url 请求地址
-     * @param params 请求参数
-     * @param charset 字符集，如UTF-8, GBK, GB2312
-     * @return 响应字符串
-     * @throws IOException
+     * HTTP GET
      */
     public static String doGet(String url, Map<String, String> params,
                                String charset) throws IOException {
@@ -394,7 +368,7 @@ public abstract class WebUtils {
         for (Entry<String, String> entry : entries) {
             String name = entry.getKey();
             String value = entry.getValue();
-            // 忽略参数名或参数值为空的参数
+            // ignore empty param
             if (StringUtils.areNotEmpty(name, value)) {
                 if (hasParam) {
                     query.append("&");
@@ -465,33 +439,14 @@ public abstract class WebUtils {
         return charset;
     }
 
-    /**
-     * 使用默认的UTF-8字符集反编码请求参数值。
-     *
-     * @param value 参数值
-     * @return 反编码后的参数值
-     */
     public static String decode(String value) {
         return decode(value, DEFAULT_CHARSET);
     }
 
-    /**
-     * 使用默认的UTF-8字符集编码请求参数值。
-     *
-     * @param value 参数值
-     * @return 编码后的参数值
-     */
     public static String encode(String value) {
         return encode(value, DEFAULT_CHARSET);
     }
 
-    /**
-     * 使用指定的字符集反编码请求参数值。
-     *
-     * @param value 参数值
-     * @param charset 字符集
-     * @return 反编码后的参数值
-     */
     public static String decode(String value, String charset) {
         String result = null;
         if (!StringUtils.isEmpty(value)) {
@@ -504,13 +459,6 @@ public abstract class WebUtils {
         return result;
     }
 
-    /**
-     * 使用指定的字符集编码请求参数值。
-     *
-     * @param value 参数值
-     * @param charset 字符集
-     * @return 编码后的参数值
-     */
     public static String encode(String value, String charset) {
         String result = null;
         if (!StringUtils.isEmpty(value)) {
@@ -535,10 +483,7 @@ public abstract class WebUtils {
     }
 
     /**
-     * 从URL中提取所有的参数。
-     *
-     * @param query URL地址
-     * @return 参数映射
+     * get params from URL
      */
     public static Map<String, String> splitUrlQuery(String query) {
         Map<String, String> result = new HashMap<String, String>();

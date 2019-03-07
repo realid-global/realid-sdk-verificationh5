@@ -15,35 +15,32 @@ import com.realid.sdk.util.WebUtils;
 
 public class RealidClient {
 	
-	private String BASE_URL;
+	private String baseUrl;
 	
 	// The unique identity assigned by REAL ID to each merchant.
-	private String MCH_NO;
+	private String mchNo;
 	// The unique key assigned by REAL ID to each merchant.
-	private String SECRET_KEY;
+	private String secretKey;
 	
 	
 	
-	public RealidClient(String mCH_NO, String sECRET_KEY) {
-		super();
-		BASE_URL = RealidConstants.REQUEST_BASE_URL;
-		MCH_NO = mCH_NO;
-		SECRET_KEY = sECRET_KEY;
+	public RealidClient(String mchNo, String secretKey) {
+		baseUrl = RealidConstants.REQUEST_BASE_URL;
+		this.mchNo = mchNo;
+		this.secretKey = secretKey;
 	}
 
 
 	public RealidClient(String baseUrl, String mchNo, String secretKey) {
-		super();
-		
 		if(StringUtils.isEmpty(baseUrl)) {
 			baseUrl = RealidConstants.REQUEST_BASE_URL;
 		}else if(!baseUrl.endsWith("/")) {
 			baseUrl += "/";
 		}
 		
-		BASE_URL = baseUrl;
-		MCH_NO = mchNo;
-		SECRET_KEY = secretKey;
+		this.baseUrl = baseUrl;
+		this.mchNo = mchNo;
+		this.secretKey = secretKey;
 	}
 	
 
@@ -52,17 +49,17 @@ public class RealidClient {
 	 * @param data the part of "data" parameter
 	 */
 	public <T extends RealidResult> RealidResponse<T> request(RealidRequestModel<T> data) throws RealidException {
-		RealidRequest request = new RealidRequest(MCH_NO,data);
+		RealidRequest request = new RealidRequest(mchNo,data);
 
 		String calculateSign = generateSignature(request);
 		request.setSign(calculateSign);
-		String jsonStr = JSON.toJSON(request).toString();
+		String jsonStr = RealidUtils.toJsonString(request);;
 
 		String resp = null;
 		try {
-			resp = WebUtils.doPost(BASE_URL + data.getInterfaceName(), jsonStr);
+			resp = WebUtils.doPost(baseUrl + data.interfaceName(), jsonStr);
 		} catch (IOException e) {
-			throw new RealidException("do realid request error, url: "+BASE_URL + data.getInterfaceName() , e);
+			throw new RealidException("do realid request error, url: "+baseUrl + data.interfaceName() , e);
 		}
 		// check response sign
 		if (!verifySign(resp)) {
@@ -80,22 +77,22 @@ public class RealidClient {
 	
 	
 	/**
-	 * @Description: generate a signature string
+	 *  generate a signature string
 	 */
 	public String generateSignature(Object object) throws RealidException {
 		String signSource = RealidUtils.jointParams(RealidUtils.toSortedMap(object));
-		return RealidUtils.sha256_HMAC(signSource, SECRET_KEY);
+		return RealidUtils.sha256_HMAC(signSource, secretKey);
 	}
 	
 	/**
-	 * @Description: generate a signature string
+	 *  generate a signature string
 	 */
 	public String generateSignature(String signSource) throws RealidException {
-		return RealidUtils.sha256_HMAC(signSource, SECRET_KEY);
+		return RealidUtils.sha256_HMAC(signSource, secretKey);
 	}
 	
 	/**
-	 * @Description: verify response sign
+	 *  verify response sign
 	 */
 	public boolean verifySign(String response) throws RealidException {
 		JSONObject object = JSON.parseObject(response);

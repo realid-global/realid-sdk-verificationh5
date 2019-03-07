@@ -1,9 +1,5 @@
 package com.realid.sdk.util;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -19,11 +15,7 @@ import com.realid.sdk.RealidException;
 
 import java.util.Map.Entry;
 
-/**
- * 系统工具类
- */
 public abstract class RealidUtils {
-    private static String localIp;
 
     private RealidUtils() {
     }
@@ -54,10 +46,7 @@ public abstract class RealidUtils {
 	
 	
 	/**
-     * 将加密后的字节数组转换成字符串
-     *
-     * @param b 字节数组
-     * @return 字符串
+     * byte array to hex string
      */
     public static String encodeHexString(byte[] b) {
         StringBuilder hs = new StringBuilder();
@@ -72,11 +61,7 @@ public abstract class RealidUtils {
     }
     
     /**
-     * sha256_HMAC加密
-     * @param message 消息
-     * @param secret  秘钥
-     * @return 加密后字符串
-     * @throws RealidException 
+     * sha256_HMAC encrypt
      */
     public static String sha256_HMAC(String message, String secret) throws RealidException {
         String hash = "";
@@ -92,9 +77,16 @@ public abstract class RealidUtils {
         return hash;
     }
     
+    /**
+     * JSON strings are in the same order when multiple outputs
+     */
+    public static String toJsonString(Object obj) {
+    		return JSON.toJSON(obj).toString();
+    }
+    
 
 	public static Map<String, String> toSortedMap(Object obj) {
-		TreeMap<String, String> dataTreeMap = JSON.parseObject(JSON.toJSON(obj).toString(),
+		TreeMap<String, String> dataTreeMap = JSON.parseObject(toJsonString(obj),
 				new TypeReference<TreeMap<String, String>>() {});
 		return dataTreeMap;
 	}
@@ -102,9 +94,9 @@ public abstract class RealidUtils {
 
 
     /**
-     * 获取文件的真实后缀名。目前只支持JPG, GIF, PNG, BMP四种图片文件。
+     * get the suffix of file。only support: JPG, GIF, PNG, BMP
      *
-     * @param bytes 文件字节流
+     * @param bytes 
      * @return JPG, GIF, PNG or null
      */
     public static String getFileSuffix(byte[] bytes) {
@@ -126,10 +118,10 @@ public abstract class RealidUtils {
     }
 
     /**
-     * 获取文件的真实媒体类型。目前只支持JPG, GIF, PNG, BMP四种图片文件。
+     * Get MIME-TYPE。only support JPG, GIF, PNG, BMP
      *
-     * @param bytes 文件字节流
-     * @return 媒体类型(MEME-TYPE)
+     * @param bytes 
+     * @return MIME-TYPE
      */
     public static String getMimeType(byte[] bytes) {
         String suffix = getFileSuffix(bytes);
@@ -151,11 +143,7 @@ public abstract class RealidUtils {
     }
 
     /**
-     * 清除字典中值为空的项。
-     *
-     * @param <V> 泛型
-     * @param map 待清除的字典
-     * @return 清除后的字典
+     * clear null value items
      */
     public static <V> Map<String, V> cleanupMap(Map<String, V> map) {
         if (map == null || map.isEmpty()) {
@@ -175,51 +163,10 @@ public abstract class RealidUtils {
     }
     
 
-    /**
-     * 获取本机的网络IP
-     */
-    public static String getLocalNetWorkIp() {
-        if (localIp != null) {
-            return localIp;
-        }
-        try {
-            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip = null;
-            while (netInterfaces.hasMoreElements()) {// 遍历所有的网卡
-                NetworkInterface ni = (NetworkInterface) netInterfaces.nextElement();
-                if (ni.isLoopback() || ni.isVirtual()) {// 如果是回环和虚拟网络地址的话继续
-                    continue;
-                }
-                Enumeration<InetAddress> addresss = ni.getInetAddresses();
-                while (addresss.hasMoreElements()) {
-                    InetAddress address = addresss.nextElement();
-                    if (address instanceof Inet4Address) {// 这里暂时只获取ipv4地址
-                        ip = address;
-                        break;
-                    }
-                }
-                if (ip != null) {
-                    break;
-                }
-            }
-            if (ip != null) {
-                localIp = ip.getHostAddress();
-            } else {
-                localIp = "127.0.0.1";
-            }
-        } catch (Exception e) {
-            localIp = "127.0.0.1";
-        }
-        return localIp;
-    }
-
     private static String RADIX_62_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     /**
-     * 将数字转为62进制
-     *
-     * @param num    Long 型数字
-     * @return 62进制字符串
+     * long to 62 digits
      */
     public static String toRadix62Str(long num) {
         StringBuilder sb = new StringBuilder();
@@ -235,24 +182,6 @@ public abstract class RealidUtils {
         sb.append(RADIX_62_CHARS.charAt(Long.valueOf(num).intValue()));
         return sb.reverse().toString();
     }
-
-    /**
-     * 62进制字符串转为数字
-     *
-     * @param str 编码后的62进制字符串
-     * @return 解码后的 10 进制字符串
-     */
-    public static long fromRadix62Str(String str) {
-        str = str.replace("^0*", "");
-        long num = 0;
-        int index = 0;
-        for (int i = 0; i < str.length(); i++) {
-            index = RADIX_62_CHARS.indexOf(str.charAt(i));
-            num += (long) (index * (Math.pow(62, str.length() - i - 1)));
-        }
-
-        return num;
-    }
     
     public final static Random r = new Random();
     
@@ -264,6 +193,9 @@ public abstract class RealidUtils {
         return charValue.toString();
     }
     
+    /**
+     * generate a random string base on currentTimeMillis and random number
+     */
     public static String randomString(){
     		String value = randomNumber(5) + System.currentTimeMillis() ;
     		return toRadix62Str(Long.parseLong(value));
