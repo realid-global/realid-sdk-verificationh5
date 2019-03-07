@@ -3,8 +3,8 @@ package com.realid.sdk;
 
 import com.alibaba.fastjson.JSON;
 import com.realid.sdk.model.request.QueryVerificationDataRequest;
+import com.realid.sdk.model.response.QueryVerificationDataResult;
 import com.realid.sdk.model.response.RealidResponse;
-import com.realid.sdk.model.response.RealidResult;
 
 
 
@@ -23,13 +23,13 @@ public class QueryVerificationDataDemo {
     public void queryVerificationData() {
 		QueryVerificationDataRequest data = new QueryVerificationDataRequest();
 		
-		data.setOrderId("D945F9E12350432B9CCE1997F06697CA");
+		data.setOrderId("2297502DE1384F3C8367C73FBF84BD05");
 		
 		RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 		try {
-			RealidResponse response = client.request(data);
+			RealidResponse<QueryVerificationDataResult> response = client.request(data);
 			if(response.getResponse().getCode() == 0) {
-				RealidResult result = response.getResponse().getResult();
+				QueryVerificationDataResult result = response.getResponse().getResult();
 				System.out.println(JSON.toJSONString(result));
 			}else {
 				System.out.println("failed");

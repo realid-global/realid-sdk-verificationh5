@@ -1,13 +1,13 @@
 package com.realid.sdk.model.response;
 
 
-public class RealidResponseBody {
+public class RealidResponseBody<T extends RealidResult> {
 	
 	private Integer code;
 
 	private String message;
 
-	private RealidResult result;
+	private T result;
 
 	public Integer getCode() {
 		return code;
@@ -25,11 +25,11 @@ public class RealidResponseBody {
 		this.message = message;
 	}
 
-	public RealidResult getResult() {
+	public T getResult() {
 		return result;
 	}
 
-	public void setResult(RealidResult result) {
+	public void setResult(T result) {
 		this.result = result;
 	}
 

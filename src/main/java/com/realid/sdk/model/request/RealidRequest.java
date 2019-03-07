@@ -31,7 +31,7 @@ public class RealidRequest {
 	/**
 	 * 数据对象
 	 */
-	private RealidRequestModel data;
+	private RealidRequestModel<?> data;
 	
 	
 	
@@ -50,7 +50,7 @@ public class RealidRequest {
 	 * @param mchNo
 	 * @param data
 	 */
-	public RealidRequest(String mchNo, RealidRequestModel data) {
+	public RealidRequest(String mchNo, RealidRequestModel<?> data) {
 		super();
 		this.mchNo = mchNo;
 		this.data = data;
@@ -110,11 +110,11 @@ public class RealidRequest {
 		this.signType = signType;
 	}
 
-	public RealidRequestModel getData() {
+	public RealidRequestModel<?> getData() {
 		return data;
 	}
 
-	public void setData(RealidRequestModel data) {
+	public void setData(RealidRequestModel<?> data) {
 		this.data = data;
 	}
 

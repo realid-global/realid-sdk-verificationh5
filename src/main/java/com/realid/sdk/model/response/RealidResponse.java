@@ -1,10 +1,10 @@
 package com.realid.sdk.model.response;
 
 
-public class RealidResponse {
+public class RealidResponse<T extends RealidResult> {
 	private String sign;
 
-	private RealidResponseBody response;
+	private RealidResponseBody<T> response;
 
 	public String getSign() {
 		return sign;
@@ -14,11 +14,11 @@ public class RealidResponse {
 		this.sign = sign;
 	}
 
-	public RealidResponseBody getResponse() {
+	public RealidResponseBody<T> getResponse() {
 		return response;
 	}
 
-	public void setResponse(RealidResponseBody response) {
+	public void setResponse(RealidResponseBody<T> response) {
 		this.response = response;
 	}
 

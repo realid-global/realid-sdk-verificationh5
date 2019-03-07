@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.realid.sdk.model.request.RealidRequest;
 import com.realid.sdk.model.request.RealidRequestModel;
 import com.realid.sdk.model.response.RealidResponse;
+import com.realid.sdk.model.response.RealidResult;
 import com.realid.sdk.util.RealidUtils;
 import com.realid.sdk.util.StringUtils;
 import com.realid.sdk.util.WebUtils;
@@ -49,7 +51,7 @@ public class RealidClient {
 	 * @Description: create a http post request
 	 * @param data the part of "data" parameter
 	 */
-	public RealidResponse request(RealidRequestModel data) throws RealidException {
+	public <T extends RealidResult> RealidResponse<T> request(RealidRequestModel<T> data) throws RealidException {
 		RealidRequest request = new RealidRequest(MCH_NO,data);
 
 		String calculateSign = generateSignature(request);
@@ -70,8 +72,8 @@ public class RealidClient {
 		JSONObject jsonObject = JSON.parseObject(resp);
 		JSONObject jsonResult = jsonObject.getJSONObject(RealidConstants.PARAM_RESPONSE).getJSONObject(RealidConstants.PARAM_RESULT);
 		
-		RealidResponse response = JSON.toJavaObject(jsonObject, RealidResponse.class);
-		response.getResponse().setResult(JSON.toJavaObject(jsonResult, data.getResultClass()));
+		RealidResponse<T> response = JSON.parseObject(resp, new TypeReference<RealidResponse<T>>(){});
+		response.getResponse().setResult( JSON.toJavaObject(jsonResult, data.getTClass()));
 		
 		return response;
 	}

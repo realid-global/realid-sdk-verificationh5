@@ -3,7 +3,7 @@ package com.realid.sdk.model.request;
 import com.realid.sdk.RealidConstants;
 import com.realid.sdk.model.response.CreateOrderResult;
 
-public class CreateOrderRequest extends RealidRequestModel {
+public class CreateOrderRequest extends RealidRequestModel<CreateOrderResult> {
 	
 	private String mchOrderId;
 	
@@ -58,11 +58,6 @@ public class CreateOrderRequest extends RealidRequestModel {
 	@Override
 	public final void setInterfaceName() {
 		this.setInterfaceName(RealidConstants.REQUEST_CREATE_ORDER);
-	}
-
-	@Override
-	void setResultClass() {
-		this.setResultClass(CreateOrderResult.class);
 	}
 	
 

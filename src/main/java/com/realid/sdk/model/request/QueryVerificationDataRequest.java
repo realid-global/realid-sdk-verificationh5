@@ -3,7 +3,7 @@ package com.realid.sdk.model.request;
 import com.realid.sdk.RealidConstants;
 import com.realid.sdk.model.response.QueryVerificationDataResult;
 
-public class QueryVerificationDataRequest extends RealidRequestModel{
+public class QueryVerificationDataRequest extends RealidRequestModel<QueryVerificationDataResult>{
 	
 	private String orderId;
 	
@@ -20,9 +20,5 @@ public class QueryVerificationDataRequest extends RealidRequestModel{
 		this.setInterfaceName(RealidConstants.REQUEST_QUERY_VERIFICATION_DATA);
 	}
 	
-	@Override
-	void setResultClass() {
-		this.setResultClass(QueryVerificationDataResult.class);
-	}
 
 }

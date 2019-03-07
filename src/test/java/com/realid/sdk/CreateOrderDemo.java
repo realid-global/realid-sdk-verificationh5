@@ -2,8 +2,8 @@ package com.realid.sdk;
 
 import com.alibaba.fastjson.JSON;
 import com.realid.sdk.model.request.CreateOrderRequest;
+import com.realid.sdk.model.response.CreateOrderResult;
 import com.realid.sdk.model.response.RealidResponse;
-import com.realid.sdk.model.response.RealidResult;
 import com.realid.sdk.util.RealidUtils;
 
 
@@ -14,7 +14,6 @@ public class CreateOrderDemo {
 	public String MCH_NO = "TEST001";
 	// The unique key assigned by REAL ID to each merchant.
 	public String SECRET_KEY = "TESTKEY001";
-	
 	
 	public static void main(String[] args) {
 		CreateOrderDemo ins = new CreateOrderDemo();
@@ -32,9 +31,9 @@ public class CreateOrderDemo {
 		
 		RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 		try {
-			RealidResponse response = client.request(model);
+			RealidResponse<CreateOrderResult> response = client.request(model);
 			if(response.getResponse().getCode() == 0) {
-				RealidResult result = response.getResponse().getResult();
+				CreateOrderResult result = response.getResponse().getResult();
 				System.out.println(JSON.toJSONString(result));
 			}else {
 				System.out.println("failed");
