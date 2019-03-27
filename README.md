@@ -20,17 +20,6 @@ public String SECRET_KEY = "TESTKEY001";
 RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 ~~~
 
-or
-
-~~~java
-// The unique identity assigned by REAL ID to each merchant.
-public String MCH_NO = "TEST001";
-// The unique key assigned by REAL ID to each merchant.
-public String SECRET_KEY = "TESTKEY001";
-public String BASE_URL = "https://uat-sg.realid.global/sdk/";
-
-RealidClient client = new RealidClient(BASE_URL,MCH_NO,SECRET_KEY);
-~~~
 
 ### Create Verification Order (Merchant->REAL ID)
 
