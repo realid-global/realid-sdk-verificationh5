@@ -32,7 +32,7 @@ import javax.net.ssl.X509TrustManager;
 
 import com.realid.sdk.model.FileItem;
 
-public abstract class WebUtils {
+public final class WebUtils {
 
     private static final String     DEFAULT_CHARSET = "UTF-8";
     private static final String     METHOD_POST     = "POST";
@@ -79,9 +79,6 @@ public abstract class WebUtils {
             }
         };
 
-    }
-
-    private WebUtils() {
     }
     
     

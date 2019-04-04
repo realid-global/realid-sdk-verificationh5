@@ -1,8 +1,11 @@
 package com.realid.sdk.util;
 
-public abstract class StringUtils {
+import java.util.ArrayList;
+import java.util.List;
 
-	private StringUtils() {}
+public final class StringUtils {
+	
+	public static String EMPTY = "";
 
 	public static boolean isEmpty(String value) {
 		int strLen;
@@ -58,8 +61,8 @@ public abstract class StringUtils {
 	 * filtering invisible characters
 	 */
 	public static String stripInvalidCharacters(String input) {
-		if (input == null || ("".equals(input)))
-			return "";
+		if (input == null || (EMPTY.equals(input)))
+			return EMPTY;
 		StringBuilder out = new StringBuilder();
 		char current;
 		for (int i = 0; i < input.length(); i++) {
@@ -72,6 +75,65 @@ public abstract class StringUtils {
 		}
 		return out.toString();
 	}
+	
+	public static List<String> splitLength(String inputString, int length) {
+        int size = inputString.length() / length;
+        if (inputString.length() % length != 0) {
+            size += 1;
+        }
+        return splitLength(inputString, length, size);
+    }
+    
+    private static List<String> splitLength(String inputString, int length,
+            int size) {
+        List<String> list = new ArrayList<String>();
+        for (int index = 0; index < size; index++) {
+            String childStr = substring(inputString,index * length,
+                    (index + 1) * length);
+            list.add(childStr);
+        }
+        return list;
+    }
+    
+    public static String reverse(String str) {
+        if (str == null) {
+            return null;
+        }
+        return new StringBuilder(str).reverse().toString();
+    }
+    
+    public static String substring(String str, int start, int end) {
+        if (str == null) {
+            return null;
+        }
+
+        // handle negatives
+        if (end < 0) {
+            end = str.length() + end; // remember end is negative
+        }
+        if (start < 0) {
+            start = str.length() + start; // remember start is negative
+        }
+
+        // check length next
+        if (end > str.length()) {
+            end = str.length();
+        }
+
+        // if start is greater than end, return ""
+        if (start > end) {
+            return EMPTY;
+        }
+
+        if (start < 0) {
+            start = 0;
+        }
+        if (end < 0) {
+            end = 0;
+        }
+
+        return str.substring(start, end);
+    }
 
 	
 }

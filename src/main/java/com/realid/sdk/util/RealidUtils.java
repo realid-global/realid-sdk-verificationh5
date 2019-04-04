@@ -11,14 +11,12 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.realid.sdk.RealidConstants;
 import com.realid.sdk.RealidException;
 
 import java.util.Map.Entry;
 
-public abstract class RealidUtils {
-
-    private RealidUtils() {
-    }
+public final class RealidUtils {
     
     
     /**
@@ -28,7 +26,7 @@ public abstract class RealidUtils {
 	 * @return String
 	 */
 	public static String jointParams(Map<String, String> params) {
-		params.remove("sign");
+		params.remove(RealidConstants.PARAM_SIGN);
 		final String splliter = "&", jointer = "=";
 		StringBuilder sb = new StringBuilder();
 		for (String k : params.keySet()) {
@@ -183,6 +181,21 @@ public abstract class RealidUtils {
         return sb.reverse().toString();
     }
     
+    private static char[] digits = new char[]{ '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','G','H','J','K','L','M','N','P','R','S','T','U','W','X','Y','Z'} ;
+    
+    public static String toRadix32Str(long left) {
+  	  int shift = 5;//32进制，每进制位占5个bit
+  	  int length = 64/shift+1;
+  	  StringBuilder sb = new StringBuilder();
+  	  long bits = (1L << shift) -1;
+  	  for(int i=0;i<length;i++) {
+  		 sb.append(digits[(int)(left & bits)]);
+  		 left >>= shift;
+  	  	 if(left == 0)break;
+  	  }
+  	  return sb.toString();
+    }
+    
     public final static Random r = new Random();
     
     public static String randomNumber(int charCount){
@@ -197,7 +210,40 @@ public abstract class RealidUtils {
      * generate a random string base on currentTimeMillis and random number
      */
     public static String randomString(){
-    		String value = randomNumber(5) + System.currentTimeMillis() ;
-    		return toRadix62Str(Long.parseLong(value));
+    		String value =  nextSequence() + randomNumber(10);
+		StringBuilder builder = new StringBuilder();
+		for(String subString: StringUtils.splitLength(value, 18)){
+			builder.append(toRadix62Str(Long.parseLong(StringUtils.reverse(subString))));
+		}
+		
+		return builder.toString();
     }
+    
+    /**
+     * generate a random string base on currentTimeMillis and random number
+     */
+    public static String randomStringUpperCase(){
+		String value =  nextSequence() + randomNumber(10);
+		
+		StringBuilder builder = new StringBuilder();
+		for(String subString: StringUtils.splitLength(value, 18)){
+			builder.append(toRadix32Str(Long.parseLong(StringUtils.reverse(subString))));
+		}
+		return builder.toString();
+	}
+    
+    
+    private static long sequence;
+    private static long referenceTime;
+    private static synchronized long nextSequence() {
+    		long currentTime = System.currentTimeMillis();
+		if(currentTime > referenceTime) {
+			sequence = 0;
+			referenceTime = currentTime;
+		}else {
+			sequence++;
+		}
+		return  (sequence << 41 | referenceTime) & Long.MAX_VALUE;
+    }
+    
 }
