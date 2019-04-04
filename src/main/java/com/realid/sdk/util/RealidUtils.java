@@ -237,7 +237,9 @@ public final class RealidUtils {
     private static long referenceTime;
     private static synchronized long nextSequence() {
     		long currentTime = System.currentTimeMillis();
-		if(currentTime > referenceTime) {
+    		if (currentTime < referenceTime) {
+    	        throw new RuntimeException(String.format("Last referenceTime %s is after reference time %s", referenceTime, currentTime));
+    	    }else if(currentTime > referenceTime) {
 			sequence = 0;
 			referenceTime = currentTime;
 		}else {
