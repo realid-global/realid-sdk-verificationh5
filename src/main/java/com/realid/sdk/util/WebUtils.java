@@ -75,7 +75,7 @@ public final class WebUtils {
 
         verifier = new HostnameVerifier() {
             public boolean verify(String hostname, SSLSession session) {
-                return false;//not verify centification
+                return true;//not verify centification
             }
         };
 

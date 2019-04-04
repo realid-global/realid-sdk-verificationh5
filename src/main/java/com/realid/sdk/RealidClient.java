@@ -1,6 +1,8 @@
 package com.realid.sdk;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -91,14 +93,31 @@ public class RealidClient {
 		return RealidUtils.sha256_HMAC(signSource, secretKey);
 	}
 	
+	private static Pattern cosUrlPattern = Pattern.compile("\\{\"response\":(.+?),\"sign\":\"(.+?)\"\\}");
+	
 	/**
 	 *  verify response sign
 	 */
 	public boolean verifySign(String response) throws RealidException {
-		JSONObject object = JSON.parseObject(response);
-		String sign = object.getString(RealidConstants.PARAM_SIGN);
-		String signSource = object.get(RealidConstants.PARAM_RESPONSE).toString();
-		return (sign.equals(generateSignature(signSource)));
+		JSONObject jsonObject = JSON.parseObject(response);
+		String sign = jsonObject.getString(RealidConstants.PARAM_SIGN);
+		if(!StringUtils.isEmpty(sign)) {
+			Matcher m = cosUrlPattern.matcher(response);
+			if(m.matches()) {
+				String signSource = m.group(1);
+				if(!StringUtils.isEmpty(signSource)) {
+					return (sign.equals(generateSignature(signSource)));
+				}else {
+					return false;
+				}
+			}else {
+				//not matches
+				return false;
+			}
+		}else {
+			//have no sign parameters
+			return true;
+		}
 	}
 	
 
