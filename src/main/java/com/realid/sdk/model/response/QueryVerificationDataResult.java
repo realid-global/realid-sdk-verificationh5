@@ -1,6 +1,5 @@
 package com.realid.sdk.model.response;
 
-import java.util.Map;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.realid.sdk.model.IdType;
@@ -16,7 +15,7 @@ public class QueryVerificationDataResult extends RealidResult {
 	
 	private String idImage2;
 	
-	private Map<String,Object> idData; 
+	private String idData; 
 	
 	private String facialSnapshot;
 	
@@ -72,11 +71,11 @@ public class QueryVerificationDataResult extends RealidResult {
 		this.idImage2 = idImage2;
 	}
 
-	public Map<String, Object> getIdData() {
+	public String getIdData() {
 		return idData;
 	}
 
-	public void setIdData(Map<String, Object> idData) {
+	public void setIdData(String idData) {
 		this.idData = idData;
 	}
 
