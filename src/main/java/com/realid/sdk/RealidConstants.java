@@ -42,6 +42,8 @@ public class RealidConstants {
     
     public static final String REQUEST_CREATE_ORDER = "createWebOrder";
     
+    public static final String REQUEST_CREATE_NATIVE_ORDER = "createNativeOrder";
+    
     public static final String REQUEST_QUERY_VERIFICATION_DATA = "queryVerificationData";
     
 
