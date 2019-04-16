@@ -23,6 +23,7 @@ RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 
 ### Create Verification Order (Merchant->REAL ID)
 
+##### html5 order
 ~~~java
 CreateOrderRequest model = new CreateOrderRequest();
 model.setNotifyURL(null);
@@ -36,7 +37,24 @@ if(response.getResponse().getCode() == 0) {
 	CreateOrderResult result = response.getResponse().getResult();
 	System.out.println(JSON.toJSONString(result));
 }else {
-	System.out.println("failed");
+	System.out.println("error");
+}
+~~~
+
+##### sdk Order
+~~~java
+CreateNativeOrderRequest model = new CreateNativeOrderRequest();	
+model.setNotifyURL(null);
+model.setVerificationType("1");
+model.setMchOrderId(RealidUtils.randomString());
+model.setExpireDay(1);
+
+RealidResponse<CreateNativeOrderResult> response = client.request(model);
+if(response.getResponse().getCode() == 0) {
+	CreateNativeOrderResult result = response.getResponse().getResult();
+	System.out.println(JSON.toJSONString(result));
+}else {
+	System.out.println("error");
 }
 ~~~
 
