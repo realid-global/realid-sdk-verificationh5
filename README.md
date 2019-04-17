@@ -7,6 +7,22 @@ For more infomation about our company, please visit:
 and the product API, please visit: 
 [Realid HTML5 Verification API](https://api.realid.global/doc/) 
 
+# Dependency
+
+##### Maven
+~~~xml
+<dependency>
+  <groupId>com.github.realid-global</groupId>
+  <artifactId>realid-sdk-verification-h5</artifactId>
+  <version>1.0</version>
+</dependency>
+~~~
+
+##### Gradle
+~~~
+compile group: 'com.github.realid-global', name: 'realid-sdk-verification-h5', version: '1.0'
+~~~
+
 # Getting Started
 
 ### Get permission
@@ -23,7 +39,7 @@ RealidClient client = new RealidClient(MCH_NO,SECRET_KEY);
 
 ### Create Verification Order (Merchant->REAL ID)
 
-##### html5 order
+##### HTML5 order
 ~~~java
 CreateOrderRequest model = new CreateOrderRequest();
 model.setNotifyURL(null);
@@ -41,7 +57,7 @@ if(response.getResponse().getCode() == 0) {
 }
 ~~~
 
-##### sdk Order
+##### App Order
 ~~~java
 CreateNativeOrderRequest model = new CreateNativeOrderRequest();	
 model.setNotifyURL(null);
