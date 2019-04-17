@@ -47,7 +47,7 @@ public class RealidClient {
 	
 
 	/**
-	 * @Description: create a http post request
+	 * create a http post request
 	 * @param data the part of "data" parameter
 	 */
 	public <T extends RealidResult> RealidResponse<T> request(RealidRequestModel<T> data) throws RealidException {

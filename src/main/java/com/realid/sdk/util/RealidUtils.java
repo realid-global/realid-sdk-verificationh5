@@ -20,9 +20,8 @@ public final class RealidUtils {
     
     
     /**
-	 * @Description: joint request parameter for generating signature
-	 * @param params
-	 *            request parameter map
+	 * joint request parameter for generating signature
+	 * @param params request parameter map
 	 * @return String
 	 */
 	public static String jointParams(Map<String, String> params) {
