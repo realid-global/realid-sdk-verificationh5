@@ -12,7 +12,7 @@ and the product API, please visit:
 ##### Maven
 ~~~xml
 <dependency>
-  <groupId>com.github.realid-global</groupId>
+  <groupId>global.realid</groupId>
   <artifactId>realid-sdk-verification-h5</artifactId>
   <version>1.0</version>
 </dependency>
@@ -20,7 +20,7 @@ and the product API, please visit:
 
 ##### Gradle
 ~~~
-compile group: 'com.github.realid-global', name: 'realid-sdk-verification-h5', version: '1.0'
+compile group: 'global.realid', name: 'realid-sdk-verification-h5', version: '1.0'
 ~~~
 
 # Getting Started
